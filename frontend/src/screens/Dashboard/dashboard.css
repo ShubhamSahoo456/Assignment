@@ -1,0 +1,82 @@
+.todo_wrapper{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.todo_container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width:30%;
+    height: 70%;
+    border-radius: 10px;
+    -webkit-box-shadow: 2px 6px 9px 0px rgba(0,0,0,0.09); 
+    box-shadow: 3px 6px 9px 3px rgba(0,0,0,0.09);
+}
+
+.todo_input{
+    padding: 10px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    
+}
+
+.todo_input input{
+    width: 80%;
+    height: 30px;
+    outline: 0;
+    border: none;
+    border-bottom: 2px solid black;
+    font-size: 22px;
+    padding: 10px;
+}
+
+.add_icon{
+    color: blue;
+    margin-left: 20px;
+    font-size: 25px;
+}
+
+.todo_listitem{
+    overflow: scroll;
+    height: 450px;
+    padding: 10px;
+}
+
+.todo_item{
+    border-radius: 10px;
+    -webkit-box-shadow: 2px 6px 9px 0px rgba(0,0,0,0.09); 
+    box-shadow: 3px 6px 9px 3px rgba(0,0,0,0.09);
+    height: 50px;
+    display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.delete_icon{
+    color: red;
+    margin-right: 20px;
+}
+
+.todo_item h2{
+    font-size: 20px;
+    margin-left: 15px;
+    font-weight: 500;
+}
+
+.logout_btn{
+    padding: 10px;
+    outline: 0;
+    background-color: maroon;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+
+}
