@@ -77,6 +77,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 .create_account button{
@@ -90,4 +91,9 @@
     font-size: 15px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.google_btn{
+  margin-right: 50px;
+    
 }

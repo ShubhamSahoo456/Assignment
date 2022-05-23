@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import "./register.css";
 import axios from "axios";
+import GoogleLogin from "react-google-login";
 
 const RegisterScreen = () => {
   const [registerUser, setRegisterUser] = useState({
@@ -32,6 +33,18 @@ const RegisterScreen = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const responseGoogle = async (response) => {
+    try {
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const responseGoogleFail = (response) => {
+    console.log(response);
   };
 
   return (
@@ -105,6 +118,17 @@ const RegisterScreen = () => {
               <Link to="/login" style={{ width: "80%", textAlign: "center" }}>
                 <button>Login Into Account</button>
               </Link>
+
+              <GoogleLogin
+                clientId="207811513448-88q61uvf3s991kc4lkuj85v8biioubnn.apps.googleusercontent.com"
+                buttonText="Sign In With Google"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogleFail}
+                cookiePolicy={"single_host_origin"}
+                className="google_btn"
+
+                // isSignedIn={true}
+              />
             </div>
           </div>
         </div>
