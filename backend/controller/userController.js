@@ -10,24 +10,22 @@ const registerUserController = async (req, res) => {
         const updateUser = await User.findByIdAndUpdate(googleSignIn._id, {
           googleAuthToken: googleAuthToken,
         });
-        res
-          .status(200)
-          .json({
-            status: true,
-            user: updateUser,
-            token: updateUser.googleAuthToken,
-          });
+        const token = await updateUser.generateToken();
+        res.status(200).json({
+          status: true,
+          user: updateUser,
+          token: token,
+        });
       } else {
         const registerUser = new User(req.body);
         const saveUser = await registerUser.save();
         if (saveUser) {
-          res
-            .status(200)
-            .json({
-              status: true,
-              user: saveUser,
-              token: saveUser.googleAuthToken,
-            });
+          const token = await saveUser.generateToken();
+          res.status(200).json({
+            status: true,
+            user: saveUser,
+            token: token,
+          });
         }
       }
     }
