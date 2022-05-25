@@ -3,7 +3,34 @@ const User = require("../models/userModel");
 const registerUserController = async (req, res) => {
   try {
     console.log(req.body);
-    const { email } = req.body;
+    const { email, googleAuthToken } = req.body;
+    if (googleAuthToken) {
+      const googleSignIn = await User.findOne({ email });
+      if (googleSignIn) {
+        const updateUser = await User.findByIdAndUpdate(googleSignIn._id, {
+          googleAuthToken: googleAuthToken,
+        });
+        res
+          .status(200)
+          .json({
+            status: true,
+            user: updateUser,
+            token: updateUser.googleAuthToken,
+          });
+      } else {
+        const registerUser = new User(req.body);
+        const saveUser = await registerUser.save();
+        if (saveUser) {
+          res
+            .status(200)
+            .json({
+              status: true,
+              user: saveUser,
+              token: saveUser.googleAuthToken,
+            });
+        }
+      }
+    }
     const user = await User.findOne({ email });
     if (user) {
       res.status(200).json({ status: false, message: "email already exists" });

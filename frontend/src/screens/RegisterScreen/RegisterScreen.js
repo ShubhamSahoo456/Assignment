@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "./register.css";
 import axios from "axios";
-import GoogleLogin from "react-google-login";
+import { firebase } from "../../firebase/firebase";
 
 const RegisterScreen = () => {
   const [registerUser, setRegisterUser] = useState({
@@ -11,6 +11,7 @@ const RegisterScreen = () => {
     password: "",
     confirmPassword: "",
   });
+  const navigate = useNavigate();
 
   const registerNewUser = async (e) => {
     e.preventDefault();
@@ -35,16 +36,32 @@ const RegisterScreen = () => {
     }
   };
 
-  const responseGoogle = async (response) => {
-    try {
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const responseGoogleFail = (response) => {
-    console.log(response);
+  const signInWithGoogle = async () => {
+    var googleProvider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(googleProvider)
+      .then(async (res) => {
+        //console.log(res.user.multiFactor.user);
+        if (res) {
+          try {
+            const { displayName, email, accessToken } =
+              res.user.multiFactor.user;
+            const { data } = await axios.post(
+              "http://localhost:8000/api/v1/register",
+              { name: displayName, email: email, googleAuthToken: accessToken }
+            );
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            navigate("/");
+            console.log(data);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -118,17 +135,7 @@ const RegisterScreen = () => {
               <Link to="/login" style={{ width: "80%", textAlign: "center" }}>
                 <button>Login Into Account</button>
               </Link>
-
-              <GoogleLogin
-                clientId="207811513448-88q61uvf3s991kc4lkuj85v8biioubnn.apps.googleusercontent.com"
-                buttonText="Sign In With Google"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogleFail}
-                cookiePolicy={"single_host_origin"}
-                className="google_btn"
-
-                // isSignedIn={true}
-              />
+              <button onClick={signInWithGoogle}>google login</button>
             </div>
           </div>
         </div>
