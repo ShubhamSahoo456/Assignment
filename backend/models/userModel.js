@@ -53,7 +53,7 @@ userSchema.methods.passwordVerify = async function (userPassword) {
 userSchema.methods.generateToken = async function () {
   try {
     const token = await jwt.sign({ _id: this._id }, process.env.SECRET_KEY, {
-      expiresIn: "1d",
+      expiresIn: "1m",
     });
     return token;
   } catch (error) {
