@@ -5,6 +5,7 @@ import {
   Outlet,
   Route,
   Routes,
+  useNavigate,
 } from "react-router-dom";
 import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";

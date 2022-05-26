@@ -42,14 +42,14 @@ const RegisterScreen = () => {
       .auth()
       .signInWithPopup(googleProvider)
       .then(async (res) => {
-        //console.log(res.user.multiFactor.user);
+        console.log(res);
         if (res) {
           try {
-            const { displayName, email, accessToken } =
-              res.user.multiFactor.user;
+            const { displayName, email } = res.user.multiFactor.user;
+            const { idToken } = res.credential;
             const { data } = await axios.post(
               "http://localhost:8000/api/v1/register",
-              { name: displayName, email: email, googleAuthToken: accessToken }
+              { name: displayName, email: email, googleAuthToken: idToken }
             );
             localStorage.setItem("userInfo", JSON.stringify(data));
             navigate("/");

@@ -80,6 +80,13 @@ const Dashboard = () => {
     navigate("/login");
   };
 
+  window.addEventListener("storage", () => {
+    const userData = JSON.parse(localStorage.getItem("userInfo"));
+    if (!userData) {
+      console.log(userData);
+      navigate("/login");
+    }
+  });
   return (
     <>
       <div className="todo_wrapper">

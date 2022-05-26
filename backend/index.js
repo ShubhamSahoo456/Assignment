@@ -2,8 +2,10 @@ const express = require("express");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const notesRoutes = require("./routes/notesRoutes");
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 dotenv.config({ path: "./config.env" });
 require("./config/connection");

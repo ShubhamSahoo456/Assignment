@@ -1,11 +1,22 @@
+const { Request, Response } = require("express");
+const { OAuth2Client } = require("google-auth-library");
 const User = require("../models/userModel");
+
+const googleClient = new OAuth2Client({
+  clientId: `${process.env.GOOGLE_CLIENT_ID}`,
+});
 
 const registerUserController = async (req, res) => {
   try {
-    console.log(req.body);
     const { email, googleAuthToken } = req.body;
+
     if (googleAuthToken) {
-      const googleSignIn = await User.findOne({ email });
+      const ticket = await googleClient.verifyIdToken({
+        idToken: googleAuthToken,
+        audience: `${process.env.GOOGLE_CLIENT_ID}`,
+      });
+      const payload = ticket.getPayload();
+      const googleSignIn = await User.findOne({ email: payload?.email });
       if (googleSignIn) {
         const updateUser = await User.findByIdAndUpdate(googleSignIn._id, {
           googleAuthToken: googleAuthToken,
@@ -21,7 +32,7 @@ const registerUserController = async (req, res) => {
         const saveUser = await registerUser.save();
         if (saveUser) {
           const token = await saveUser.generateToken();
-          res.status(200).json({
+          res.status(201).json({
             status: true,
             user: saveUser,
             token: token,
