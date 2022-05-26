@@ -22,7 +22,7 @@ const registerUserController = async (req, res) => {
           googleAuthToken: googleAuthToken,
         });
         const token = await updateUser.generateToken();
-        console.log(token);
+
         res.status(200).json({
           status: true,
           user: updateUser,
